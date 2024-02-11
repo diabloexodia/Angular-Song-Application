@@ -3,7 +3,7 @@
  
     
 </div>
-<app-music-table [songs]="displayedRows"></app-music-table>
+<app-music-table [displayedRows]="displayedRows" (newItemEvent)="addItem($event)"></app-music-table>
 
 <mat-paginator #paginator
                class="demo-paginator"
@@ -22,6 +22,6 @@
 
     <div class="buttons">
         <button class="btn btn-success" (click)="addButtonDialogue()"> Add </button> 
-    <button class="btn btn-danger">Delete</button>
+    <button class="btn btn-danger" (click)="deleteSelected()">Delete</button>
     </div>
 </div>

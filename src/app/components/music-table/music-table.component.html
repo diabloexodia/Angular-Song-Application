@@ -17,8 +17,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let song of songs">
-            <td><input type="checkbox"> </td>
+        <tr *ngFor="let song of displayedRows">
+            <td><input type="checkbox" (change)="updateSelectedIds(song.id, $event)"> </td>
             <td>{{ song.id }}</td>
             <td>{{ song.songName }}</td>
             <td>{{ song.artistName }}</td>

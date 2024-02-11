@@ -2,7 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject, filter, map, tap } from 'rxjs';
 import { musicType } from '../../models/musicType.interface';
 import { songs } from '../../../../assets/songs1';
-//import { readFileSync, writeFileSync } from 'fs';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,7 +16,7 @@ export class MusicServicesService implements OnInit {
   songsArray: musicType[] = songs;
   //filteredSongs: musicType[];
   filteredSongs:musicType[];
-
+ 
   loadSongData() {
     this.songsArray = JSON.parse(JSON.stringify(songs));
   }
@@ -39,7 +38,9 @@ export class MusicServicesService implements OnInit {
   }
 
   handler(data: searchcQuery) {
-    this.songSearchSubject$.next(data);
+   // this.songSearchSubject$.next(data);
+    this.songFilter(data);
+
   }
 
   addNewSong(newSong:musicType){
@@ -66,58 +67,69 @@ export class MusicServicesService implements OnInit {
   }
 
 
-  unsort(column:string):musicType[] {
+  unsort(column:string,displayedRows:musicType[]):musicType[] {
     console.log(column);
+    this.filteredSongs$.next(this.filteredSongs);
     return this.filteredSongs;
   }
-  sortDescending(column:string):musicType[] {
+  sortDescending(column:string,displayedRows:musicType[]):musicType[] {
     console.log(column);
     console.log(this.filteredSongs);
     
   switch (column){
     case 'songName':
-      this.filteredSongs.sort((a, b) => b.songName.localeCompare(a.songName));
+      displayedRows.sort((a, b) => b.songName.localeCompare(a.songName));
       break;
     case 'artistName':
-      this.filteredSongs.sort((a, b) => b.artistName.localeCompare(a.artistName));
+      displayedRows.sort((a, b) => b.artistName.localeCompare(a.artistName));
       break;
     case 'numberOfStreams':
-      this.filteredSongs.sort((a, b) => b.numberOfStreams - a.numberOfStreams);
+      displayedRows.sort((a, b) => b.numberOfStreams - a.numberOfStreams);
       break;
     case 'releaseYear':
-      this.filteredSongs.sort((a, b) => b.releaseYear - a.releaseYear);
+      displayedRows.sort((a, b) => b.releaseYear - a.releaseYear);
       break;
     case 'durationInSeconds':
-      this.filteredSongs.sort((a, b) => b.durationInSeconds - a.durationInSeconds);
+      displayedRows.sort((a, b) => b.durationInSeconds - a.durationInSeconds);
       break;
     default:
       break;
   }
+  this.filteredSongs$.next(displayedRows);
   return this.filteredSongs;
   }
-  sortAscending(column:string):musicType[] {
+  sortAscending(column:string,displayedRows:musicType[]):musicType[] {
     console.log(column);
     
   switch (column) {
     case 'songName':
-      this.filteredSongs.sort((a, b) => a.songName.localeCompare(b.songName));
+      displayedRows.sort((a, b) => a.songName.localeCompare(b.songName));
       break;
     case 'artistName':
-      this.filteredSongs.sort((a, b) => a.artistName.localeCompare(b.artistName));
+      displayedRows.sort((a, b) => a.artistName.localeCompare(b.artistName));
       break;
     case 'numberOfStreams':
-      this.filteredSongs.sort((a, b) => a.numberOfStreams - b.numberOfStreams);
+      displayedRows.sort((a, b) => a.numberOfStreams - b.numberOfStreams);
       break;
     case 'releaseYear':
-      this.filteredSongs.sort((a, b) => a.releaseYear - b.releaseYear);
+      displayedRows.sort((a, b) => a.releaseYear - b.releaseYear);
       break;
     case 'durationInSeconds':
-      this.filteredSongs.sort((a, b) => a.durationInSeconds - b.durationInSeconds);
+      displayedRows.sort((a, b) => a.durationInSeconds - b.durationInSeconds);
       break;
     default:
       break;
   }
+  this.filteredSongs$.next(displayedRows);
   return this.filteredSongs;
+  }
+
+  deleteSelected(selectedIds:string[]){ 
+
+   var  coonfirmDeletion:boolean= false;
+   if(confirm("Are you sure you want to delete ?"))
+   this.filteredSongs$.next(this.songsArray.filter(song => !selectedIds.includes(song.id)));
+  
   }
 }
 export interface searchcQuery {

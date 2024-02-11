@@ -22,6 +22,8 @@ AppRoutingModule;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+
   title = 'SongApp';
 
   length = this.musicService.songsArray.length;
@@ -32,7 +34,7 @@ export class AppComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
 
-
+selectedIds: string[] = [];
   pageEvent: PageEvent;
   songsArray: musicType[];
   displayedRows: musicType[];
@@ -40,6 +42,24 @@ export class AppComponent implements OnInit {
   updateDisplayedRows(startPage: number, endPage: number) {
     this.displayedRows = this.filteredSongs.slice(startPage, endPage);
   }
+  addItem(event:string[]){
+    this.selectedIds=event;
+  }
+deleteSelected() {
+this.musicService.deleteSelected(this.selectedIds);
+
+ this.musicService.filteredSongs$.subscribe((data) => {
+  this.filteredSongs = data;
+
+  
+});
+this.musicService.filteredSongs$.subscribe((data) => {
+  this.filteredSongs = data;
+  // this.updateDisplayedRows(startPage, endPage);
+});
+  
+}
+
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.length = e.length;
@@ -61,11 +81,11 @@ export class AppComponent implements OnInit {
     }
     );
     const startPage = this.pageIndex * this.pageSize;
-  const endPage = startPage + this.pageSize;
+  const endPage = startPage + this.displayedRows.length;
   this.updateDisplayedRows(startPage, endPage);
 
-  this.musicService.songSearchSubject$.subscribe((data) => {
-    this.filteredSongs = this.musicService.songFilter(data);
+  this.musicService.filteredSongs$.subscribe((data) => {
+    this.filteredSongs = data;
     this.updateDisplayedRows(startPage, endPage);
   });
   }

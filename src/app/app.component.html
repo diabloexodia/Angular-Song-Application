@@ -1,0 +1,27 @@
+<div class="searchbar">
+    <app-music-search></app-music-search>
+ 
+    
+</div>
+<app-music-table [songs]="displayedRows"></app-music-table>
+
+<mat-paginator #paginator
+               class="demo-paginator"
+               (page)="handlePageEvent($event)"
+               [length]="length"
+               [pageSize]="pageSize"
+                
+               [showFirstLastButtons]="showFirstLastButtons"
+               [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+             
+               [pageIndex]="pageIndex"
+               aria-label="Select page">
+</mat-paginator>
+
+<div class="lower-container">
+
+    <div class="buttons">
+        <button class="btn btn-success" (click)="addButtonDialogue()"> Add </button> 
+    <button class="btn btn-danger">Delete</button>
+    </div>
+</div>

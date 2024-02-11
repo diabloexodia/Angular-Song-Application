@@ -1,0 +1,29 @@
+
+.searchbar{
+    border: 2px solid red;
+}
+.sorting{
+    width: 100px;
+    height: 100%;
+}
+th{
+    height: 100px;
+
+}
+.thead-light{
+    width: 100%;
+}
+.thead-light th:hover .hide {
+    display: flex;
+    color: red; /* Adjust color as needed */
+    gap: 20px;
+    height: 25% ;
+    width: 100%;
+  }
+
+.hide {
+    display: none;
+    height: 100%;
+    
+ }
+      

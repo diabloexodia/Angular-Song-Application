@@ -1,0 +1,34 @@
+
+<div class = "container">
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th *ngFor="let column of displayedColumns">
+                <div class="sorting"> 
+                    {{ column }}
+                    <button class="hide">Ascending</button>
+                    <button class="hide">Descending</button>
+                    <button  class="hide">Unsort</button>
+                </div> 
+              
+               
+               
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let song of songs">
+            <td><input type="checkbox"> </td>
+            <td>{{ song.id }}</td>
+            <td>{{ song.songName }}</td>
+            <td>{{ song.artistName }}</td>
+            <td>{{ song.numberOfStreams }}</td>
+            <td>{{ song.releaseYear }}</td>
+            <td>{{ song.durationInSeconds }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+</div>

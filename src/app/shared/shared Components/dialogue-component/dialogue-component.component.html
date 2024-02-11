@@ -1,0 +1,33 @@
+<form [formGroup]="DialogueForm" class="container mb-3 gap-2 br-30">
+    <div class="form-group mb-3 br-30">
+      <label for="field1">Song Name</label>
+      <input type="text" id="field1" class="Form-control" formControlName="songName">
+      <p  class="error" *ngIf="DialogueForm.get('songName')?.['errors']?.['required']">*Required</p>
+   
+    </div>
+    <div>
+      <label for="field2">Artist Name</label>
+      <input type="text" id="field2" formControlName="artistName">
+      <p  class="error" *ngIf="DialogueForm.get('artistName')?.['errors']?.['required']">*Required</p>
+   
+    </div>
+    <div>
+      <label for="field2">Year Of Release</label>
+      <input type="text" id="field2" formControlName="releaseYear">
+      <p class="error" *ngIf="DialogueForm.get('releaseYear')?.['errors']?.['required']">*Required</p>
+    </div>
+    <div>
+      <label for="field2">Duration In Seconds</label>
+      <input type="text" id="field2" formControlName="durationInSeconds">
+      <p class="error" *ngIf="DialogueForm.get('durationInSeconds')?.['errors']?.['required']">*Required</p>
+   
+    </div>
+    <div>
+      <label for="field2">Number Of Streams</label>
+      <input type="text" id="field2" formControlName="numberOfStreams">
+      <p class="error" *ngIf="DialogueForm.get('numberOfStreams')?.['errors']?.['required']">*Required</p>
+   
+    </div>
+    <button class=" btn btn-success" (click)="onAdd()" >Add</button>
+  </form>
+  

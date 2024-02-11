@@ -1,0 +1,32 @@
+
+
+.searchbar{
+    display: flex;
+    // gap: 15%;
+    height: 20%;
+    width: 100%;
+    align-items: center;
+    color: aliceblue;
+    justify-content: space-around;
+    background: linear-gradient(to right, #510751, #a248f0);
+}
+
+.buttons
+{   display: flex;
+    height: 50%;
+    gap: 2%;
+    justify-content: center;
+}
+.btn{
+    width: 90px;
+}
+.demo-paginator{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to right, #800080, #9478b6);
+    color: white;
+}
+.lower-container{
+    background: linear-gradient(to right, #800080, #9478b6);
+}

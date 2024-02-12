@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { MusicSearchComponent } from './components/music-search/music-search.component';
 import { MusicServicesService } from './shared/Services/MusicService/music-services.service';
 import { musicType } from './shared/models/musicType.interface';
 import { PageEvent } from '@angular/material/paginator';
@@ -25,21 +24,55 @@ export class AppComponent implements OnInit {
   DialogueForm: FormGroup;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
-
   selectedIds: string[] = [];
   pageEvent: PageEvent;
   songsArray: musicType[];
   displayedRows: musicType[];
+  filteredSongs: musicType[];
+
   constructor(
     private musicService: MusicServicesService,
     private dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    this.displayedRows = songs;
+    this.filteredSongs = this.musicService.songFilter({
+      musicQuery: '',
+      artistQuery: '',
+    });
+    const startPage = this.pageIndex * this.pageSize;
+    const endPage = startPage + this.displayedRows.length;
+    this.updateDisplayedRows(startPage, endPage);
+
+    this.musicService.filteredSongs$.subscribe((data) => {
+      this.filteredSongs = data;
+      this.updateDisplayedRows(startPage, endPage);
+    });
+  }
+
+  /**
+   * updates the page number of the paginator
+   * @param startPage 
+   * @param endPage 
+   */
   updateDisplayedRows(startPage: number, endPage: number) {
     this.displayedRows = this.filteredSongs.slice(startPage, endPage);
   }
+
+/**
+ * 
+ * @param event pu
+ */
   addItem(event: string[]) {
     this.selectedIds = event;
+    console.log(event);
+    
   }
+
+  /**
+   * Calls the deleteSelected function from the musicService 
+   */
   deleteSelected() {
     this.musicService.deleteSelected(this.selectedIds);
 
@@ -63,31 +96,10 @@ export class AppComponent implements OnInit {
 
     this.updateDisplayedRows(startPage, endPage);
   }
-  filteredSongs: musicType[];
-  ngOnInit(): void {
-    this.displayedRows = songs;
-    this.filteredSongs = this.musicService.songFilter({
-      musicQuery: '',
-      artistQuery: '',
-    });
-    const startPage = this.pageIndex * this.pageSize;
-    const endPage = startPage + this.displayedRows.length;
-    this.updateDisplayedRows(startPage, endPage);
-
-    this.musicService.filteredSongs$.subscribe((data) => {
-      this.filteredSongs = data;
-      this.updateDisplayedRows(startPage, endPage);
-    });
-  }
-
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput
-        .split(',')
-        .map((str) => +str);
-    }
-  }
-
+  
+  /**
+   * This function calls add functionality in musicServices
+   */
   addButtonDialogue() {
     this.dialog
       .open(DialogueComponentComponent)
@@ -103,4 +115,14 @@ export class AppComponent implements OnInit {
         this.filteredSongs = data;
       });
   }
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput
+        .split(',')
+        .map((str) => +str);
+    }
+  }
+ 
+ 
 }

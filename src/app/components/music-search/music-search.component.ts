@@ -21,6 +21,9 @@ export class MusicSearchComponent implements OnInit {
     this.initializeForm();
   }
 
+  /**
+   * This function initializes the reactive forms
+   */
   initializeForm(): void {
     this.musicForm = this.formBuilder.group({
       musicQuery: this.formBuilder.control(''),

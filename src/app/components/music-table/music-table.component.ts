@@ -9,7 +9,10 @@ import { musicType } from '../../shared/models/musicType.interface';
 })
 export class MusicTableComponent {
   @Output() newItemEvent = new EventEmitter<string[]>();
+
+  // gets the filteredrows$ from app component
   @Input() displayedRows: musicType[];
+  @Input() dateformat:boolean=false;
   selectedIds: string[] = [];
   songsArray: musicType[];
   filteredSongs: musicType[];
@@ -24,6 +27,11 @@ export class MusicTableComponent {
 
   constructor(private musicService: MusicServicesService) {}
 
+  convertToMMSS(durationInSeconds: number): string {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
   /**
    * This function checks if the id is already present in the selectedIds[]
    * @param id

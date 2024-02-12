@@ -15,6 +15,10 @@ AppRoutingModule;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  dateformat:boolean = false;
+switchFormat() {
+this.dateformat=!this.dateformat;
+}
   title = 'SongApp';
 
   length = this.musicService.songsArray.length;
@@ -62,7 +66,7 @@ export class AppComponent implements OnInit {
 
 /**
  * 
- * @param event pu
+ * @param event Pushes the id of the song into the selectedIds [] 
  */
   addItem(event: string[]) {
     this.selectedIds = event;

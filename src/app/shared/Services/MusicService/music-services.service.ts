@@ -10,20 +10,37 @@ export class MusicServicesService implements OnInit {
   filteredSongs$: Subject<musicType[]> = new Subject<musicType[]>();
   songsArray: musicType[] = songs;
   filteredSongs: musicType[];
-
+  localStorageKey = 'savedSongs'; // Define a clear key for storage
   /**
    * This function loads ALL the song swhen the page is displayed
    */
   ngOnInit(): void {
-    this.loadSongData();
+   
   }
-  constructor() {}
+  constructor() { this.loadSongData();}
 
   /**
    * Converts the songs1.ts file present in 'assets' folder into JSON object
    */
   loadSongData() {
-    this.songsArray = JSON.parse(JSON.stringify(songs));
+    // console.log(this.songsArray.length);
+    const storedSongs = localStorage.getItem(this.localStorageKey);
+    if (storedSongs) {
+      this.songsArray = JSON.parse(storedSongs);
+    } else {
+      
+      
+      this.songsArray = JSON.parse(JSON.stringify(songs));
+    }
+    console.log(this.songsArray.length);
+  }
+
+
+   /**
+   * Saves the current song data to local storage
+   */
+   saveSongDataToLocalStorage() {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.songsArray));
   }
 
   /**
@@ -66,6 +83,10 @@ export class MusicServicesService implements OnInit {
     };
     this.songsArray.unshift(newSongwithID);
     this.filteredSongs$.next(this.filteredSongs);
+    console.log(this.songsArray.length);
+    
+    this.saveSongDataToLocalStorage(); 
+
   }
 
   /**
@@ -164,10 +185,13 @@ export class MusicServicesService implements OnInit {
    */
   deleteSelected(selectedIds: string[]) {
     // Alert box displayed for confirmation
-    if (confirm('Are you sure you want to delete ?'))
+    if (confirm('Are you sure you want to delete ?')){
       this.filteredSongs$.next(
-        this.songsArray.filter((song) => !selectedIds.includes(song.id))
+       this.songsArray= this.songsArray.filter((song) => !selectedIds.includes(song.id))
       );
+      this.saveSongDataToLocalStorage();
+    }
+      
   }
 }
 export interface searchcQuery {

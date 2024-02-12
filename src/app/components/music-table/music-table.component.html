@@ -27,9 +27,11 @@
             <td><input type="checkbox" (change)="updateSelectedIds(song.id, $event)"> </td>
             <td>{{ song.songName }}</td>
             <td>{{ song.artistName }}</td>
-            <td>{{ song.numberOfStreams }}</td>
+            <td >{{ song.numberOfStreams }}</td>
             <td>{{ song.releaseYear }}</td>
-            <td>{{ song.durationInSeconds }}</td>
+            <td>
+                {{ (dateformat ? convertToMMSS(song.durationInSeconds) : song.durationInSeconds) }}
+              </td>
         </tr>
     </tbody>
 </table>

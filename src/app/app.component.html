@@ -4,10 +4,13 @@
     <div class="buttons">
         <button class="btn btn-success m-2" (click)="addButtonDialogue()"> Add </button> 
     <button class="btn btn-danger m-2" (click)="deleteSelected()">Delete</button>
+    <button class="btn btn-info m-2" (click)="switchFormat()"><span class="material-symbols-outlined">
+        question_exchange
+        </span></button>
     </div>
     
 </div>
-<app-music-table [displayedRows]="displayedRows" (newItemEvent)="addItem($event)"></app-music-table>
+<app-music-table [displayedRows]="displayedRows" [dateformat]="dateformat"(newItemEvent)="addItem($event)"></app-music-table>
 
 <mat-paginator #paginator
                class="demo-paginator"

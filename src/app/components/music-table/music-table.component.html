@@ -4,11 +4,17 @@
     <thead class="thead-light">
         <tr>
             <th *ngFor="let column of displayedColumns">
-                <div class="sorting"> 
+                <div class="sorting" *ngIf="column!==''"> 
                     {{ column }}
-                    <button class="hide" (click)="sortAscending(column)">Ascending</button>
-                    <button class="hide " (click)="sortDescending(column)" >Descending</button>
-                    <button  class="hide" (click)="unsort(column)">Unsort</button>
+                    <button class="hide btn btn-primary" (click)="sortAscending(column)"><span class="material-symbols-outlined">
+                        sort
+                        </span></button>
+                    <button class="hide btn btn-info " (click)="sortDescending(column)" ><span class="material-symbols-outlined">
+                        filter_list
+                        </span></button>
+                    <button  class="hide btn btn-warning" (click)="unsort(column)"><span class="material-symbols-outlined">
+                        filter_list_off
+                        </span></button>
                 </div> 
               
                
@@ -19,7 +25,6 @@
     <tbody>
         <tr *ngFor="let song of displayedRows">
             <td><input type="checkbox" (change)="updateSelectedIds(song.id, $event)"> </td>
-            <td>{{ song.id }}</td>
             <td>{{ song.songName }}</td>
             <td>{{ song.artistName }}</td>
             <td>{{ song.numberOfStreams }}</td>

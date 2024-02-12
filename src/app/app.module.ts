@@ -8,22 +8,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {FormsModule} from '@angular/forms';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SharedModule } from './shared/shared.module';
 @NgModule({
-  declarations: [
-    AppComponent,
-    MusicSearchComponent,
-    MusicTableComponent,
-  ],
+  declarations: [AppComponent, MusicSearchComponent, MusicTableComponent],
   imports: [
-    BrowserModule,BrowserAnimationsModule,
-    ReactiveFormsModule,HttpClientModule,MaterialModule,MatPaginatorModule,  FormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MaterialModule,
+    MatPaginatorModule,
+    FormsModule,
     MatSlideToggleModule,
-    MatPaginatorModule,SharedModule
+    MatPaginatorModule,
+    SharedModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

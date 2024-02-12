@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-dialogue-component',
@@ -19,9 +17,9 @@ export class DialogueComponentComponent {
     this.DialogueForm = this.formBuilder.group({
       songName :this.formBuilder.control('',Validators.required),
       artistName :this.formBuilder.control('',Validators.required),
-      releaseYear :this.formBuilder.control('',Validators.required),
-      durationInSeconds :this.formBuilder.control('',Validators.required),
-      numberOfStreams :this.formBuilder.control('',Validators.required),
+      releaseYear : this.formBuilder.control('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+      durationInSeconds : this.formBuilder.control('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+      numberOfStreams : this.formBuilder.control('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     });
   }
   onAdd() {

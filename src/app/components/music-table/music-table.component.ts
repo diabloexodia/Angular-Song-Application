@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MusicServicesService } from '../../shared/Services/MusicService/music-services.service';
 import { AppComponent } from 'src/app/app.component';
 import { musicType } from '../../shared/models/musicType.interface';
@@ -15,53 +10,11 @@ import { musicType } from '../../shared/models/musicType.interface';
 export class MusicTableComponent {
   @Output() newItemEvent = new EventEmitter<string[]>();
   @Input() displayedRows: musicType[];
-selectedIds:string[]=[];
-isSelected(id: string): boolean {
-  return this.selectedIds.includes(id);
-}
-
-updateSelectedIds(id: string, event: Event) {
-
- 
-  
-  const target = event.target as HTMLInputElement; // Type-cast event.target to HTMLInputElement
-  if (target.checked) {
-    if (!this.selectedIds.includes(id) ) {
-      this.selectedIds.push(id);
-    }
-  } else {
-    const index = this.selectedIds.indexOf(id);
-    if (index > -1) {
-      this.selectedIds.splice(index, 1);
-    }
-  }
-  this.newItemEvent.emit(this.selectedIds);
- 
-}
-unsort(column:string) {
- column = column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
- this.displayedRows=this.musicService.unsort(column,this.displayedRows);
-  
-}
-sortDescending(column:string) {
-  column = column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
-
-  this.displayedRows=this.musicService.sortDescending(column,this.displayedRows);
-  
-}
-sortAscending(column:string) {
-  column = column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
- 
-  this.displayedRows=this.musicService.sortAscending(column,this.displayedRows);
-}
-  constructor(private musicService: MusicServicesService) {}
-
- 
+  selectedIds: string[] = [];
   songsArray: musicType[];
   filteredSongs: musicType[];
   displayedColumns: string[] = [
     '',
-    ' Id',
     'Song Name',
     'Artist Name',
     'Number Of Streams',
@@ -69,7 +22,74 @@ sortAscending(column:string) {
     'Duration In Seconds',
   ];
 
-  
-  
-  
+  constructor(private musicService: MusicServicesService) {}
+
+  /**
+   * This function checks if the id is already present in the selectedIds[]
+   * @param id
+   * @returns boolean
+   */
+  isSelected(id: string): boolean {
+    return this.selectedIds.includes(id);
+  }
+
+  /**
+   * This function pushes the id of the checked songs into the selectedIds[] which has to be deleted
+   * @param id
+   * @param event
+   */
+  updateSelectedIds(id: string, event: Event) {
+    const target = event.target as HTMLInputElement; // Type-cast event.target to HTMLInputElement
+
+    //Checks if the HTML Checkbox is in checked state
+    if (target.checked) {
+      if (!this.selectedIds.includes(id)) {
+        this.selectedIds.push(id);
+      }
+    } else {
+      const index = this.selectedIds.indexOf(id);
+      if (index > -1) {
+        this.selectedIds.splice(index, 1);
+      }
+    }
+    this.newItemEvent.emit(this.selectedIds);
+  }
+
+  /**
+   * This funtion unsorts the displayed rows by calling music services
+   * @param column
+   */
+  unsort(column: string) {
+    column =
+      column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
+    this.displayedRows = this.musicService.unsort(column, this.displayedRows);
+  }
+
+  /**
+   * This funtion sorts the rows in descending order by calling music services
+   * @param column
+   */
+  sortDescending(column: string) {
+    column =
+      column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
+
+    this.displayedRows = this.musicService.sortDescending(
+      column,
+      this.displayedRows
+    );
+  }
+
+  /**
+   * This funtion sorts the displayed rows in ascending order by calling the music function
+   * @param column
+   */
+  sortAscending(column: string) {
+    column =
+      column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
+
+    this.displayedRows = this.musicService.sortAscending(
+      column,
+      this.displayedRows
+    );
+  }
 }

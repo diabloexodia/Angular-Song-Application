@@ -1,32 +1,22 @@
-.search{
-    display: flex;
-    gap:5%;
-    width: 100%;
+
+
+form{
+  display: flex;
+  gap: 100px;
+}
+
+.matInput{
+  width: 100%;
+}
+
+input{
+  width: 100%;
 }
 
 
 
 
-.input-group input {
-    width: 90%;
-    gap: 2px;
-    background-color: transparent;
-    border: 2px solid hotpink;
-    border-radius: 18px;
-    text-indent: 12px;
- 
-  }
-
-
-  .input-group:hover,
-  .input-group:focus-within {
-    border-color: violet;
-  }
-
-  .input-group input:focus,
-  .input-group:hover input {
-    color: var(--primary);
-  }
+  
 
   
 

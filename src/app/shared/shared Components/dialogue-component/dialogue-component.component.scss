@@ -1,5 +1,8 @@
+
 .container{
-    width: 50%;
+    display: flex;
+direction: row;
+    width: 75%;
 }
 
 .gap-2{
@@ -10,6 +13,8 @@
 }
 .error{
     color: red;
+   font-size: smaller;
+   margin: 0;
 }
 
 .br-30{

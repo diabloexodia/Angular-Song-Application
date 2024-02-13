@@ -1,14 +1,13 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MusicServicesService } from '../../shared/Services/MusicService/music-services.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+
 @Component({
   selector: 'app-music-search',
   templateUrl: './music-search.component.html',
   styleUrls: ['./music-search.component.scss'],
 })
-@Injectable({
-  providedIn: 'root',
-})
+
 export class MusicSearchComponent implements OnInit {
   musicForm: FormGroup;
   musicquery = new FormControl();
@@ -22,15 +21,18 @@ export class MusicSearchComponent implements OnInit {
   }
 
   /**
-   * This function initializes the reactive forms
+   * This function initializes the reactive forms and creates a 
+   * subscriptoin for every value change in the form
    */
   initializeForm(): void {
     this.musicForm = this.formBuilder.group({
       musicQuery: this.formBuilder.control(''),
       artistQuery: this.formBuilder.control(''),
     });
-    this.musicForm.valueChanges.subscribe((data) => {
-      this.musicService.handler(data);
+    const s = this.musicForm.valueChanges.subscribe((data) => {
+      this.musicService.songFilter(data);
     });
+
+    // this.subscriptions.push(s)
   }
 }

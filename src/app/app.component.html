@@ -3,24 +3,22 @@
     <app-music-search></app-music-search>
     <div class="buttons">
         <button class="btn btn-success m-2" (click)="addButtonDialogue()"> Add </button> 
-    <button class="btn btn-danger m-2" (click)="deleteSelected()">Delete</button>
+    <button class="btn btn-danger m-2" (click)="deleteSelected()" [disabled]="selectedIds.length==0 || selectedIds.length>5">Delete</button>
     <button class="btn btn-info m-2" (click)="switchFormat()"><span class="material-symbols-outlined">
         question_exchange
         </span></button>
     </div>
     
 </div>
-<app-music-table [displayedRows]="displayedRows" [dateformat]="dateformat"(newItemEvent)="addItem($event)"></app-music-table>
+<app-music-table [displayedRows]="displayedRows" [dateformat]="dateformat" (newItemEvent)="addItem($event)"></app-music-table>
 
 <mat-paginator #paginator
                class="demo-paginator"
                (page)="handlePageEvent($event)"
-               [length]="length"
+               [length]="filteredSongs.length"
                [pageSize]="pageSize"
-                
-               [showFirstLastButtons]="showFirstLastButtons"
-               [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-             
+               [showFirstLastButtons]="true"
+               [pageSizeOptions]="[5,10,25,50]"
                [pageIndex]="pageIndex"
                aria-label="Select page">
 </mat-paginator>

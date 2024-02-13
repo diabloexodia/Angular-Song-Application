@@ -1,40 +1,43 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th *ngFor="let column of displayedColumns">
+                    <div class="sorting" *ngIf="column!==''">
+                        {{ column }}
+                        <button class="hide btn btn-primary" (click)="sortAscending(column)"><span
+                                class="material-symbols-outlined">
+                                sort
+                            </span></button>
+                        <button class="hide btn btn-info " (click)="sortDescending(column)"><span
+                                class="material-symbols-outlined">
+                                filter_list
+                            </span></button>
+                        <button class="hide btn btn-warning" (click)="unsort(column)"><span
+                                class="material-symbols-outlined">
+                                filter_list_off
+                            </span></button>
+                    </div>
 
-<div class = "container">
-<table class="table table-striped">
-    <thead class="thead-light">
-        <tr>
-            <th *ngFor="let column of displayedColumns">
-                <div class="sorting" *ngIf="column!==''"> 
-                    {{ column }}
-                    <button class="hide btn btn-primary" (click)="sortAscending(column)"><span class="material-symbols-outlined">
-                        sort
-                        </span></button>
-                    <button class="hide btn btn-info " (click)="sortDescending(column)" ><span class="material-symbols-outlined">
-                        filter_list
-                        </span></button>
-                    <button  class="hide btn btn-warning" (click)="unsort(column)"><span class="material-symbols-outlined">
-                        filter_list_off
-                        </span></button>
-                </div> 
-              
-               
-               
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let song of displayedRows">
-            <td><input type="checkbox" (change)="updateSelectedIds(song.id, $event)"> </td>
-            <td>{{ song.songName }}</td>
-            <td>{{ song.artistName }}</td>
-            <td >{{ song.numberOfStreams }}</td>
-            <td>{{ song.releaseYear }}</td>
-            <td>
-                {{ (dateformat ? convertToMMSS(song.durationInSeconds) : song.durationInSeconds) }}
-              </td>
-        </tr>
-    </tbody>
-</table>
+
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let song of displayedRows">
+                <td><input type="checkbox" [checked]="isSelected(song?.id)"
+                        (change)="updateSelectedIds(song.id, $event)"> </td>
+                <td>{{ song.songName }}</td>
+                <td>{{ song.artistName }}</td>
+                <td>{{ song.numberOfStreams }}</td>
+                <td>{{ song.releaseYear }}</td>
+                <td>
+                    {{ (dateformat ? convertToMMSS(song.durationInSeconds) : song.durationInSeconds) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 
 

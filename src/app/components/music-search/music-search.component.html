@@ -1,17 +1,19 @@
 <div class="searchbar">
-  
+  <form [formGroup]="musicForm">
+  <mat-form-field appearance="fill" action="" >
+    
+       
+          <mat-label>Song name</mat-label>
+          <input  matInput type="text" name="" id="text1" placeholder=" " formControlName="musicQuery"  />
+       
+      </mat-form-field>
 
-    <form action="" [formGroup]="musicForm">
-        <div class="input-group">
-            <label for="text1">Song Name</label>
-          <input type="text" name="" id="text1" placeholder=" " formControlName="musicQuery"  />
-        </div>
-      <div class="input-group">  <label for="text2">Artist Name</label>
+      <mat-form-field appearance="fill" action="" >
+        
+          <mat-label>Artist name</mat-label>
+          <input  matInput type="text" name="" id="text1" placeholder=" " formControlName="artistQuery"  />
      
-        <input type="text" name="" id="text2" placeholder=" " formControlName="artistQuery" />
-       </div>
       
-      
-      </form>
- 
+      </mat-form-field>
+    </form>
 </div>

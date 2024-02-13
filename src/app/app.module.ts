@@ -11,6 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SharedModule } from './shared/shared.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   declarations: [AppComponent, MusicSearchComponent, MusicTableComponent],
   imports: [
@@ -23,7 +26,7 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    SharedModule,
+    SharedModule,MatFormFieldModule, MatInputModule, MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

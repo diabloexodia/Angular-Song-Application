@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { MusicServicesService } from './shared/Services/MusicService/music-services.service';
-import { musicType } from './shared/models/musicType.interface';
+import { MusicType } from './shared/models/musicType.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { songs } from 'src/assets/songs1';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,24 +15,25 @@ AppRoutingModule;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  dateformat:boolean = false;
-switchFormat() {
-this.dateformat=!this.dateformat;
-}
+  dateformat  = false;
+
   title = 'SongApp';
 
   length = this.musicService.songsArray.length;
-  pageSize = 5;
+  pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
   DialogueForm: FormGroup;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   selectedIds: string[] = [];
   pageEvent: PageEvent;
-  songsArray: musicType[];
-  displayedRows: musicType[];
-  filteredSongs: musicType[];
+  songsArray: MusicType[];
+
+  // Input event emitter which is being emitted to table-component
+  displayedRows: MusicType[];
+
+  // Stores the filtered songs
+  filteredSongs: MusicType[];
 
   constructor(
     private musicService: MusicServicesService,
@@ -41,70 +42,80 @@ this.dateformat=!this.dateformat;
 
   ngOnInit(): void {
     this.displayedRows = songs;
+
+    //Initial calling when the page loads for the first time
     this.filteredSongs = this.musicService.songFilter({
       musicQuery: '',
       artistQuery: '',
     });
     const startPage = this.pageIndex * this.pageSize;
-    const endPage = startPage + this.displayedRows.length;
+    const endPage = this.pageSize;
     this.updateDisplayedRows(startPage, endPage);
-
-    this.musicService.filteredSongs$.subscribe((data) => {
-      this.filteredSongs = data;
-      this.updateDisplayedRows(startPage, endPage);
-    });
-  }
-
-  /**
-   * updates the page number of the paginator
-   * @param startPage 
-   * @param endPage 
-   */
-  updateDisplayedRows(startPage: number, endPage: number) {
-    this.displayedRows = this.filteredSongs.slice(startPage, endPage);
-  }
-
-/**
- * 
- * @param event Pushes the id of the song into the selectedIds [] 
- */
-  addItem(event: string[]) {
-    this.selectedIds = event;
-    console.log(event);
     
+    // Creating the subsription for the filtered data and stores in filteredSongs
+    this.musicService.filteredSongs$.subscribe((data) => {
+      this.filteredSongs = data;
+      this.updateDisplayedRows(0, this.pageSize);
+    
+      
+    });
   }
 
   /**
-   * Calls the deleteSelected function from the musicService 
+   * Function to switch the format of the time to MM:SS
    */
-  deleteSelected() {
-    this.musicService.deleteSelected(this.selectedIds);
-
-    this.musicService.filteredSongs$.subscribe((data) => {
-      this.filteredSongs = data;
-    });
-    this.musicService.filteredSongs$.subscribe((data) => {
-      this.filteredSongs = data;
-      // this.updateDisplayedRows(startPage, endPage);
-    });
-  }
-
-  handlePageEvent(e: PageEvent) {
-    this.pageEvent = e;
-    this.length = e.length;
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
-
-    const startPage = e.pageIndex * e.pageSize;
-    const endPage = startPage + e.pageSize;
-
-    this.updateDisplayedRows(startPage, endPage);
+  switchFormat():void {
+    this.dateformat = !this.dateformat;
   }
   
   /**
+   * This function assigns displayedRows[] only the rows which 
+   * has to be displayed from the filteredSongs
+   * @param startPage
+   * @param endPage 
+   */
+  updateDisplayedRows(startPage: number, endPage: number):void {
+    this.displayedRows = this.filteredSongs.slice(startPage, endPage);
+  }
+
+  /**
+   *
+   * @param event recieves an array of selectedIds from the table-component via Event Emitter
+   * and assigns it to selectedIds[]
+   */
+  addItem(event: string[]):void {
+    this.selectedIds = event;
+    console.log(event);
+  }
+
+  /**
+   * Calls the deleteSelected function from the musicService
+   */
+  deleteSelected() :void{
+    this.musicService.deleteSelected(this.selectedIds);
+
+
+  }
+
+  /**
+   * This function is involked whenever there is an (event) in the paginator
+   * @param e PageEvent parameter
+   */
+  handlePageEvent(e: PageEvent):void {
+   
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    const startPage = e.pageIndex * e.pageSize;
+    const endPage = startPage + e.pageSize;
+    
+    this.updateDisplayedRows(startPage, endPage);
+  }
+
+  /**
    * This function calls add functionality in musicServices
    */
-  addButtonDialogue() {
+  addButtonDialogue():void {
     this.dialog
       .open(DialogueComponentComponent)
       .afterClosed()
@@ -115,18 +126,10 @@ this.dateformat=!this.dateformat;
           this.musicService.addNewSong(data);
         }
       });
-      this.musicService.filteredSongs$.subscribe((data) => {
-        this.filteredSongs = data;
-      });
+    // this.musicService.filteredSongs$.subscribe((data) => {
+    //   this.filteredSongs = data;
+    // });
   }
+  
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput
-        .split(',')
-        .map((str) => +str);
-    }
-  }
- 
- 
 }

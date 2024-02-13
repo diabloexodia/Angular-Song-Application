@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MusicServicesService } from '../../shared/Services/MusicService/music-services.service';
-import { AppComponent } from 'src/app/app.component';
-import { musicType } from '../../shared/models/musicType.interface';
+
+import { MusicType } from '../../shared/models/musicType.interface';
 @Component({
   selector: 'app-music-table',
   templateUrl: './music-table.component.html',
@@ -11,11 +11,11 @@ export class MusicTableComponent {
   @Output() newItemEvent = new EventEmitter<string[]>();
 
   // gets the filteredrows$ from app component
-  @Input() displayedRows: musicType[];
-  @Input() dateformat:boolean=false;
+  @Input() displayedRows: MusicType[];
+  @Input() dateformat = false;
   selectedIds: string[] = [];
-  songsArray: musicType[];
-  filteredSongs: musicType[];
+  songsArray: MusicType[];
+  filteredSongs: MusicType[];
   displayedColumns: string[] = [
     '',
     'Song Name',
@@ -27,10 +27,17 @@ export class MusicTableComponent {
 
   constructor(private musicService: MusicServicesService) {}
 
+  /**
+   * Utility function to convert time to MM:SS
+   * @param durationInSeconds
+   * @returns
+   */
   convertToMMSS(durationInSeconds: number): string {
     const minutes = Math.floor(durationInSeconds / 60);
     const seconds = durationInSeconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
   }
   /**
    * This function checks if the id is already present in the selectedIds[]
@@ -43,10 +50,11 @@ export class MusicTableComponent {
 
   /**
    * This function pushes the id of the checked songs into the selectedIds[] which has to be deleted
+   * and then emits it as '@Output'
    * @param id
    * @param event
    */
-  updateSelectedIds(id: string, event: Event) {
+  updateSelectedIds(id: string, event: Event): void {
     const target = event.target as HTMLInputElement; // Type-cast event.target to HTMLInputElement
 
     //Checks if the HTML Checkbox is in checked state
@@ -67,17 +75,17 @@ export class MusicTableComponent {
    * This funtion unsorts the displayed rows by calling music services
    * @param column
    */
-  unsort(column: string) {
+  unsort(column: string): void {
     column =
       column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
-    this.displayedRows = this.musicService.unsort(column, this.displayedRows);
+    this.displayedRows = this.musicService.unsort(column);
   }
 
   /**
    * This funtion sorts the rows in descending order by calling music services
    * @param column
    */
-  sortDescending(column: string) {
+  sortDescending(column: string): void {
     column =
       column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
 
@@ -91,7 +99,7 @@ export class MusicTableComponent {
    * This funtion sorts the displayed rows in ascending order by calling the music function
    * @param column
    */
-  sortAscending(column: string) {
+  sortAscending(column: string): void {
     column =
       column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
 

@@ -1,28 +1,26 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { musicType } from '../../models/musicType.interface';
+import { MusicType } from '../../models/musicType.interface';
 import { songs } from '../../../../assets/songs1';
 @Injectable({
   providedIn: 'root',
 })
-export class MusicServicesService implements OnInit {
+export class MusicServicesService  {
   songSearchSubject$: Subject<searchcQuery> = new Subject<searchcQuery>();
-  filteredSongs$: Subject<musicType[]> = new Subject<musicType[]>();
-  songsArray: musicType[] = songs;
-  filteredSongs: musicType[];
+  filteredSongs$: Subject<MusicType[]> = new Subject<MusicType[]>();
+  songsArray: MusicType[] = songs;
+  filteredSongs: MusicType[];
   localStorageKey = 'savedSongs'; // Define a clear key for storage
   /**
    * This function loads ALL the song swhen the page is displayed
    */
-  ngOnInit(): void {
-   
-  }
+  
   constructor() { this.loadSongData();}
 
   /**
    * Converts the songs1.ts file present in 'assets' folder into JSON object
    */
-  loadSongData() {
+  loadSongData():void {
     // console.log(this.songsArray.length);
     const storedSongs = localStorage.getItem(this.localStorageKey);
     if (storedSongs) {
@@ -39,16 +37,16 @@ export class MusicServicesService implements OnInit {
    /**
    * Saves the current song data to local storage
    */
-   saveSongDataToLocalStorage() {
+   saveSongDataToLocalStorage():void {
     localStorage.setItem(this.localStorageKey, JSON.stringify(this.songsArray));
   }
 
   /**
    * This function filters the songs based on the searched 'artistName' and 'songName'
    * @param data
-   * @returns an arry of songs of musicType
+   * @returns an arry of songs of MusicType
    */
-  songFilter(data: searchcQuery): musicType[] {
+  songFilter(data: searchcQuery): MusicType[] {
     this.filteredSongs = this.songsArray.filter((song) => {
       return (
         song.songName?.toLowerCase().includes(data.musicQuery) &&
@@ -59,21 +57,15 @@ export class MusicServicesService implements OnInit {
     return this.filteredSongs;
   }
 
-  /**
-   * This funtion accepts the search query based on the changing value of the form fields
-   * @param data searchcQuery
-   */
-  handler(data: searchcQuery) {
-    this.songFilter(data);
-  }
+ 
 
   /**
    * This function extracts the value from the form fields and pushes the new song into the filteredSongs$ subject
    * @param newSong
    */
-  addNewSong(newSong: musicType) {
+  addNewSong(newSong: MusicType):void {
     console.log(newSong);
-    let newSongwithID: musicType = {
+    const newSongwithID: MusicType = {
       id: this.generateUUID(),
       songName: newSong.songName,
       artistName: newSong.artistName,
@@ -90,11 +82,11 @@ export class MusicServicesService implements OnInit {
   }
 
   /**
-   * This funtion generates a 16 digit pattern
+   * This funtion generates a 16 digit UUID pattern using RegEx
    * @returns string
    */
   generateUUID(): string {
-    const uuidPattern: string = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+    const uuidPattern = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
     return uuidPattern.replace(/[xy]/g, (character) => {
       const random = Math.floor(Math.random() * 16);
       const value = character === 'x' ? random : (random & 0x3) | 0x8;
@@ -108,7 +100,7 @@ export class MusicServicesService implements OnInit {
    * @param displayedRows
    * @returns
    */
-  unsort(column: string, displayedRows: musicType[]): musicType[] {
+  unsort(column: string): MusicType[] {
     console.log(column);
     this.filteredSongs$.next(this.filteredSongs);
     return this.filteredSongs;
@@ -120,7 +112,7 @@ export class MusicServicesService implements OnInit {
    * @param displayedRows
    * @returns sorted array
    */
-  sortDescending(column: string, displayedRows: musicType[]): musicType[] {
+  sortDescending(column: string, displayedRows: MusicType[]): MusicType[] {
     console.log(column);
     console.log(this.filteredSongs);
 
@@ -153,7 +145,7 @@ export class MusicServicesService implements OnInit {
    * @param displayedRows
    * @returns sorted array
    */
-  sortAscending(column: string, displayedRows: musicType[]): musicType[] {
+  sortAscending(column: string, displayedRows: MusicType[]): MusicType[] {
     console.log(column);
 
     switch (column) {
@@ -183,7 +175,7 @@ export class MusicServicesService implements OnInit {
    * This function removes the songs whose id matches the ids inside the selectedIds[]
    * @param selectedIds
    */
-  deleteSelected(selectedIds: string[]) {
+  deleteSelected(selectedIds: string[]):void {
     // Alert box displayed for confirmation
     if (confirm('Are you sure you want to delete ?')){
       this.filteredSongs$.next(

@@ -1,4 +1,4 @@
-export interface musicType {
+export interface MusicType {
   id: string;
   songName: string;
   artistName: string;

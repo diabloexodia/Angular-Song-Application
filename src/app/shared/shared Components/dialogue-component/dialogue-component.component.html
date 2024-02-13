@@ -1,36 +1,41 @@
 <form [formGroup]="DialogueForm" class="container mb-3 gap-2 br-30">
-    <div class="form-group mb-3 br-30">
-      <label for="field1">Song Name</label>
-      <input type="text"  class="Form-control" formControlName="songName">
-      <p  class="error" *ngIf="DialogueForm.get('songName')?.['errors']?.['required']">*Required</p>
-   
+  <div class="form-group mb-3 br-30">
+      <mat-form-field appearance="fill" action="" >
+      <mat-label for="field1">Song Name</mat-label>
+      <input matInput type="text"  class="Form-control" formControlName="songName">
+    </mat-form-field>
+    <p  class="error" *ngIf=" (DialogueForm.get('songName').dirty||DialogueForm.get('songName').touched) && DialogueForm.get('songName')?.['errors']?.['required']">*Required</p>
+    <p  class="error" *ngIf=" (DialogueForm.get('songName').dirty||DialogueForm.get('songName').touched) || DialogueForm.get('songName')?.['pattern']">*Only string</p>
     </div>
     <div>
-      <label for="field2">Artist Name</label>
-      <input type="text"  formControlName="artistName">
-      <p  class="error" *ngIf="DialogueForm.get('artistName')?.['errors']?.['required']">*Required</p>
-   
+      <mat-form-field appearance="fill" action="" >
+      <mat-label for="field2">Artist Name</mat-label>
+      <input matInput type="text"  formControlName="artistName" name="artistname">
+    </mat-form-field>
+    <p  class="error" *ngIf=" (DialogueForm.get('artistName').dirty||DialogueForm.get('artistName').touched) && DialogueForm.get('artistName')?.['errors']?.['required']">*Required</p>
+    <p  class="error" *ngIf=" (DialogueForm.get('artistName').dirty||DialogueForm.get('artistName').touched) || DialogueForm.get('artistName')?.['pattern']">*Only string</p>
     </div>
     <div>
-      <label for="field2">Year Of Release</label>
-      <input type="text" formControlName="releaseYear">
-      <p class="error" *ngIf="DialogueForm.get('releaseYear')?.['errors']?.['required']">*Required</p>
-      <p class="error" *ngIf="DialogueForm.get('releaseYear')?.['errors']?.['pattern']">*Only numbers</p>
+      <mat-form-field appearance="fill" action="" >
+      <mat-label for="field2">Year Of Release</mat-label>
+      <input  matInput type="number" formControlName="releaseYear">
+    </mat-form-field>
+    <p class="error" *ngIf="(DialogueForm.get('releaseYear').dirty||DialogueForm.get('releaseYear').touched) && DialogueForm.get('releaseYear')?.['errors']?.['required']">*Required</p>
     </div>
     <div>
-      <label for="field2">Duration In Seconds</label>
-      <input type="text"  formControlName="durationInSeconds">
-      <p class="error" *ngIf="DialogueForm.get('durationInSeconds')?.['errors']?.['required']">*Required</p>
-      <p class="error" *ngIf="DialogueForm.get('durationInSeconds')?.['errors']?.['pattern']">*Only numbers</p>
-   
+      <mat-form-field appearance="fill" action="" >
+      <mat-label for="field2">Duration In Seconds</mat-label>
+      <input matInput type="number"  formControlName="durationInSeconds">
+    </mat-form-field>
+    <p class="error" *ngIf=" (DialogueForm.get('durationInSeconds').dirty||DialogueForm.get('durationInSeconds').touched) && DialogueForm.get('durationInSeconds')?.['errors']?.['required']">*Required</p>
     </div>
     <div>
-      <label for="field2">Number Of Streams</label>
-      <input type="text"  formControlName="numberOfStreams">
-      <p class="error" *ngIf="DialogueForm.get('numberOfStreams')?.['errors']?.['required']">*Required</p>
-      <p class="error" *ngIf="DialogueForm.get('numberOfStreams')?.['errors']?.['pattern']">*Only numbers</p>
-   
+      <mat-form-field appearance="fill" action="" >
+      <mat-label for="field2">Number Of Streams</mat-label>
+      <input  matInput type="number"  formControlName="numberOfStreams">
+    </mat-form-field>
+    <p class="error" *ngIf="(DialogueForm.get('numberOfStreams').dirty||DialogueForm.get('numberOfStreams').touched) && DialogueForm.get('numberOfStreams')?.['errors']?.['required']">*Required</p>
     </div>
-    <button class=" btn btn-success" (click)="onAdd()" >Add</button>
+    <button class=" btn btn-success" (click)="onAdd()"  [disabled]="!DialogueForm.valid" >Add</button>
   </form>
   

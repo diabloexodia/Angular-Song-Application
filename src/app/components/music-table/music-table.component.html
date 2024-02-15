@@ -28,7 +28,7 @@
             <tr *ngFor="let song of displayedRows">
                 <td><input type="checkbox" [checked]="isSelected(song?.id)"
                         (change)="updateSelectedIds(song.id, $event)"> </td>
-                <td>{{ song.songName }}</td>
+                <td><div class="text-overflow" [matTooltip]="song.songName">{{ song.songName }}</div></td>
                 <td>{{ song.artistName }}</td>
                 <td>{{ song.numberOfStreams }}</td>
                 <td>{{ song.releaseYear }}</td>
@@ -39,6 +39,17 @@
         </tbody>
     </table>
 
+
+    <mat-paginator #paginator
+               class="demo-paginator"
+               (page)="handlePageEvent($event)"
+               [length]="length"
+               [pageSize]="pageSize"
+               [showFirstLastButtons]="true"
+               [pageSizeOptions]="[5,10,25,50]"
+               [pageIndex]="pageIndex"
+               aria-label="Select page">
+</mat-paginator>
 
 
 </div>

@@ -22,11 +22,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
-    MatPaginatorModule,
     FormsModule,
-    MatSlideToggleModule,
-    MatPaginatorModule,
-    SharedModule,MatFormFieldModule, MatInputModule, MatIconModule
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

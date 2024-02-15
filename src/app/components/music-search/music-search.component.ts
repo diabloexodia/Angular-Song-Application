@@ -38,6 +38,10 @@ export class MusicSearchComponent implements OnInit,OnDestroy {
 
      this.subscriptions.push(musicFormSubscription)
   }
+
+  /**
+   * Unsubscribes from the Subjects when the component is destroyed
+   */
   ngOnDestroy(): void {
     this.subscriptions.forEach(element=>{
       element.unsubscribe();

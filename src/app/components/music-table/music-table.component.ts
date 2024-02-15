@@ -2,16 +2,26 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MusicServicesService } from '../../shared/Services/MusicService/music-services.service';
 
 import { MusicType } from '../../shared/models/musicType.interface';
+import { PageEvent } from '@angular/material/paginator';
+
 @Component({
   selector: 'app-music-table',
   templateUrl: './music-table.component.html',
   styleUrls: ['./music-table.component.scss'],
 })
 export class MusicTableComponent {
+  pageEvent: PageEvent;
+  datasource: null;
+  pageIndex: number;
+  pageSize = 10;
+
+  length: number;
+  startPage = 0;
+  endPage = this.startPage + this.pageSize;
   @Output() newItemEvent = new EventEmitter<string[]>();
 
   // gets the filteredrows$ from app component
-  @Input() displayedRows: MusicType[];
+  displayedRows: MusicType[];
   @Input() dateformat = false;
   selectedIds: string[] = [];
   songsArray: MusicType[];
@@ -25,7 +35,18 @@ export class MusicTableComponent {
     'Duration In Seconds',
   ];
 
-  constructor(private musicService: MusicServicesService) {}
+  constructor(private musicService: MusicServicesService) {
+    this.musicService.filteredSongs$.subscribe((data) => {
+      this.filteredSongs = data;
+
+      this.sliceAndDisplay(
+        this.pageSize,
+        this.startPage,
+        this.endPage,
+        this.filteredSongs.length
+      );
+    });
+  }
 
   /**
    * Utility function to convert time to MM:SS
@@ -58,17 +79,37 @@ export class MusicTableComponent {
     const target = event.target as HTMLInputElement; // Type-cast event.target to HTMLInputElement
 
     //Checks if the HTML Checkbox is in checked state
-    if (target.checked) {
-      if (!this.selectedIds.includes(id)) {
-        this.selectedIds.push(id);
-      }
-    } else {
-      const index = this.selectedIds.indexOf(id);
-      if (index > -1) {
-        this.selectedIds.splice(index, 1);
-      }
-    }
+    if (target.checked && !this.selectedIds.includes(id)) {
+      this.selectedIds.push(id);
+    } else if (!target.checked && this.selectedIds.includes(id))
+      this.selectedIds = this.selectedIds.filter((element) => element !== id);
     this.newItemEvent.emit(this.selectedIds);
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    console.log(event);
+    this.startPage = event.pageIndex * this.pageSize;
+    this.endPage = this.startPage + this.pageSize;
+    length = event.length;
+
+    this.sliceAndDisplay(
+      this.pageSize,
+      this.startPage,
+      this.endPage,
+      this.filteredSongs.length
+    );
+  }
+
+  sliceAndDisplay(
+    pageSize: number,
+    startPage: number,
+    endPage: number,
+    length: number
+  ) {
+    this.displayedRows = this.filteredSongs.slice(startPage, endPage);
+    this.pageSize = pageSize;
+    this.length = length;
   }
 
   /**
@@ -78,7 +119,12 @@ export class MusicTableComponent {
   unsort(column: string): void {
     column =
       column.charAt(0).toLowerCase() + column.slice(1).replace(/\s+/g, '');
-    this.displayedRows = this.musicService.unsort(column);
+    this.sliceAndDisplay(
+      this.pageSize,
+      this.startPage,
+      this.endPage,
+      this.filteredSongs.length
+    );
   }
 
   /**

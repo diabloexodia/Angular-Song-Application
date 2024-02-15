@@ -10,20 +10,7 @@
     </div>
     
 </div>
-<app-music-table [displayedRows]="displayedRows" [dateformat]="dateformat" (newItemEvent)="addItem($event)"></app-music-table>
+<app-music-table  [dateformat]="dateformat " (newItemEvent)="addItem($event)" ></app-music-table>
 
-<mat-paginator #paginator
-               class="demo-paginator"
-               (page)="handlePageEvent($event)"
-               [length]="filteredSongs.length"
-               [pageSize]="pageSize"
-               [showFirstLastButtons]="true"
-               [pageSizeOptions]="[5,10,25,50]"
-               [pageIndex]="pageIndex"
-               aria-label="Select page">
-</mat-paginator>
 
-<div class="lower-container">
 
-    
-</div>

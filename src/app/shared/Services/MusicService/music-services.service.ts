@@ -10,6 +10,9 @@ export class MusicServicesService {
   filteredSongs$: Subject<MusicType[]> = new Subject<MusicType[]>();
   songsArray: MusicType[] = songs;
   filteredSongs: MusicType[];
+
+  currentSearch:searchcQuery;
+
   localStorageKey = 'savedSongs'; // Define a clear key for storage
   /**
    * This function loads ALL the song swhen the page is displayed
@@ -19,6 +22,9 @@ export class MusicServicesService {
     this.loadSongData();
   }
 
+  searchQuery(searchQuery:searchcQuery){
+    this.songSearchSubject$.next(searchQuery);
+  }
   /**
    * Converts the songs1.ts file present in 'assets' folder into JSON object
    */
@@ -46,6 +52,7 @@ export class MusicServicesService {
    * @returns an arry of songs of MusicType
    */
   songFilter(data: searchcQuery): MusicType[] {
+    this.currentSearch=data;
     this.filteredSongs = this.songsArray.filter((song) => {
       return (
         song.songName?.toLowerCase().includes(data.musicQuery) &&
@@ -96,9 +103,9 @@ export class MusicServicesService {
    * @param displayedRows
    * @returns
    */
-  unsort(column: string): MusicType[] {
+  unsort(column: string,displayedRows: MusicType[]): MusicType[] {
     console.log(column);
-    this.filteredSongs$.next(this.filteredSongs);
+  //  this.filteredSongs$.next(this.filteredSongs);
     return this.filteredSongs;
   }
 
@@ -131,8 +138,9 @@ export class MusicServicesService {
       default:
         break;
     }
-    this.filteredSongs$.next(displayedRows);
-    return this.filteredSongs;
+    // this.filteredSongs$.next(displayedRows);
+    // return this.filteredSongs;
+    return displayedRows;
   }
 
   /**
@@ -163,8 +171,10 @@ export class MusicServicesService {
       default:
         break;
     }
-    this.filteredSongs$.next(displayedRows);
-    return this.filteredSongs;
+    // this.filteredSongs$.next(displayedRows);
+    // return this.filteredSongs;
+
+    return displayedRows;
   }
 
   /**
@@ -174,10 +184,15 @@ export class MusicServicesService {
   deleteSelected(selectedIds: string[]): void {
     this.songsArray = this.songsArray.filter(
       (song) => !selectedIds.includes(song.id)
-    );
-console.log("asd",this.songsArray);
 
-    this.filteredSongs$.next(this.songsArray)
+    );
+
+    this.songFilter(this.currentSearch);
+
+//     this.songFilter({musicQuery:this.songSearchSubject$[0],artistQuery:this.songSearchSubject$[1]})
+// console.log("asd",this.songSearchSubject$[0]);
+
+    // this.filteredSongs$.next(this.songsArray)
     this.saveSongDataToLocalStorage();
   }
 }

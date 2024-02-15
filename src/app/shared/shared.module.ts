@@ -6,10 +6,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { DeleteComponentComponent } from './shared Components/delete-component/delete-component.component';
 
 @NgModule({
   declarations: [
-    DialogueComponentComponent
+    DialogueComponentComponent,
+    DeleteComponentComponent
   ],
   imports: [
     CommonModule,ReactiveFormsModule,MatDialogModule,MatInputModule,MatFormFieldModule,MatSelectModule

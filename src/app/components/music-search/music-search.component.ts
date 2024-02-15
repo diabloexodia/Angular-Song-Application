@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MusicServicesService } from '../../shared/Services/MusicService/music-services.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Subscription, elementAt } from 'rxjs';
 
 @Component({
   selector: 'app-music-search',
@@ -8,14 +9,16 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
   styleUrls: ['./music-search.component.scss'],
 })
 
-export class MusicSearchComponent implements OnInit {
+export class MusicSearchComponent implements OnInit,OnDestroy {
   musicForm: FormGroup;
+  subscriptions : Subscription[]=[];
   musicquery = new FormControl();
   artistquery = new FormControl();
   constructor(
     private musicService: MusicServicesService,
     private formBuilder: FormBuilder
   ) {}
+ 
   ngOnInit(): void {
     this.initializeForm();
   }
@@ -29,10 +32,16 @@ export class MusicSearchComponent implements OnInit {
       musicQuery: this.formBuilder.control(''),
       artistQuery: this.formBuilder.control(''),
     });
-    const s = this.musicForm.valueChanges.subscribe((data) => {
+    const musicFormSubscription = this.musicForm.valueChanges.subscribe((data) => {
       this.musicService.songFilter(data);
     });
 
-    // this.subscriptions.push(s)
+     this.subscriptions.push(musicFormSubscription)
   }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(element=>{
+      element.unsubscribe();
+    })
+  }
+
 }

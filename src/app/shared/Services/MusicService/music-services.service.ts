@@ -5,7 +5,7 @@ import { songs } from '../../../../assets/songs1';
 @Injectable({
   providedIn: 'root',
 })
-export class MusicServicesService  {
+export class MusicServicesService {
   songSearchSubject$: Subject<searchcQuery> = new Subject<searchcQuery>();
   filteredSongs$: Subject<MusicType[]> = new Subject<MusicType[]>();
   songsArray: MusicType[] = songs;
@@ -14,31 +14,30 @@ export class MusicServicesService  {
   /**
    * This function loads ALL the song swhen the page is displayed
    */
-  
-  constructor() { this.loadSongData();}
+
+  constructor() {
+    this.loadSongData();
+  }
 
   /**
    * Converts the songs1.ts file present in 'assets' folder into JSON object
    */
-  loadSongData():void {
+  loadSongData(): void {
     // console.log(this.songsArray.length);
-    const storedSongs = localStorage.getItem(this.localStorageKey);
+    const storedSongs = sessionStorage.getItem(this.localStorageKey);
     if (storedSongs) {
       this.songsArray = JSON.parse(storedSongs);
     } else {
-      
-      
       this.songsArray = JSON.parse(JSON.stringify(songs));
     }
     console.log(this.songsArray.length);
   }
 
-
-   /**
+  /**
    * Saves the current song data to local storage
    */
-   saveSongDataToLocalStorage():void {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.songsArray));
+  saveSongDataToLocalStorage(): void {
+    sessionStorage.setItem(this.localStorageKey, JSON.stringify(this.songsArray));
   }
 
   /**
@@ -57,13 +56,11 @@ export class MusicServicesService  {
     return this.filteredSongs;
   }
 
- 
-
   /**
    * This function extracts the value from the form fields and pushes the new song into the filteredSongs$ subject
    * @param newSong
    */
-  addNewSong(newSong: MusicType):void {
+  addNewSong(newSong: MusicType): void {
     console.log(newSong);
     const newSongwithID: MusicType = {
       id: this.generateUUID(),
@@ -74,11 +71,10 @@ export class MusicServicesService  {
       durationInSeconds: newSong.durationInSeconds,
     };
     this.songsArray.unshift(newSongwithID);
-    this.filteredSongs$.next(this.filteredSongs);
-    console.log(this.songsArray.length);
-    
-    this.saveSongDataToLocalStorage(); 
+    this.filteredSongs$.next(this.songsArray);
+   
 
+    this.saveSongDataToLocalStorage();
   }
 
   /**
@@ -175,15 +171,14 @@ export class MusicServicesService  {
    * This function removes the songs whose id matches the ids inside the selectedIds[]
    * @param selectedIds
    */
-  deleteSelected(selectedIds: string[]):void {
-    // Alert box displayed for confirmation
-    if (confirm('Are you sure you want to delete ?')){
-      this.filteredSongs$.next(
-       this.songsArray= this.songsArray.filter((song) => !selectedIds.includes(song.id))
-      );
-      this.saveSongDataToLocalStorage();
-    }
-      
+  deleteSelected(selectedIds: string[]): void {
+    this.songsArray = this.songsArray.filter(
+      (song) => !selectedIds.includes(song.id)
+    );
+console.log("asd",this.songsArray);
+
+    this.filteredSongs$.next(this.songsArray)
+    this.saveSongDataToLocalStorage();
   }
 }
 export interface searchcQuery {

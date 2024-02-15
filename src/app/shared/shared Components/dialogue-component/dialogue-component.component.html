@@ -5,7 +5,7 @@
       <input matInput type="text"  class="Form-control" formControlName="songName">
     </mat-form-field>
     <p  class="error" *ngIf=" (DialogueForm.get('songName').dirty||DialogueForm.get('songName').touched) && DialogueForm.get('songName')?.['errors']?.['required']">*Required</p>
-    <p  class="error" *ngIf=" (DialogueForm.get('songName').dirty||DialogueForm.get('songName').touched) || DialogueForm.get('songName')?.['pattern']">*Only string</p>
+    <p  class="error" *ngIf=" DialogueForm.get('songName').hasError('pattern')">*Only string</p>
     </div>
     <div>
       <mat-form-field appearance="fill" action="" >
@@ -13,7 +13,7 @@
       <input matInput type="text"  formControlName="artistName" name="artistname">
     </mat-form-field>
     <p  class="error" *ngIf=" (DialogueForm.get('artistName').dirty||DialogueForm.get('artistName').touched) && DialogueForm.get('artistName')?.['errors']?.['required']">*Required</p>
-    <p  class="error" *ngIf=" (DialogueForm.get('artistName').dirty||DialogueForm.get('artistName').touched) || DialogueForm.get('artistName')?.['pattern']">*Only string</p>
+    <p  class="error" *ngIf=" DialogueForm.get('artistName').hasError('pattern')">*Only string</p>
     </div>
     <div>
       <mat-form-field appearance="fill" action="" >

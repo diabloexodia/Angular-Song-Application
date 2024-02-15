@@ -1,0 +1,20 @@
+.deletebox{
+    height: 15vh;
+    width: 40vh;
+    gap:2%;
+    display:flex ;
+     flex-direction: column;
+}
+
+span{
+    text-align: center;
+    height: 45%;
+    font-size: larger;
+    width: 100%;
+}
+.button{
+    display: flex;
+    justify-content: center;
+    height: 30%;
+    gap: 5%;
+}

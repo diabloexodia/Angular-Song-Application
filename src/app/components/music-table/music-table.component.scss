@@ -5,12 +5,15 @@
 .sorting{
     display: flex;
     gap: 2px;
+    
     width: 100%;
-    height: 150px;
+    height: 90px;
 }
 
-.thead-light{
+.th{
     width: 100%;
+    
+    
 }
 .thead-light th:hover .hide {
     display: flex;
@@ -18,11 +21,15 @@
     gap: 20px;
     height: 25% ;
     align-items: center;
-    width: fit-content;
-    border-radius: 15px;
+    width: 20%;
+    text-align: center;
+    border-radius: 35px;
     visibility:visible ;
   }
-
+.material-symbols-outlined{
+   font-weight: 500;
+   font-size: 15px;
+}
 .hide {
     visibility: hidden;
     height: 100%;
@@ -34,4 +41,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow-x: hidden;
+ }
+ button{
+    width: 50%;
  }

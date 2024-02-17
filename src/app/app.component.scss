@@ -1,5 +1,35 @@
-
-
+@keyframes breathingEffect {
+    0% {
+      color: rgb(253, 251, 253);
+      opacity: 0.5;
+      width: 25%;
+      font-size: 40px;
+    }
+   50% {
+      color: rgb(174, 84, 238);
+      opacity: 1;
+      width: 25%;
+      font-size: 40px;
+    }
+    
+    100% {
+      color: rgb(61, 5, 99);
+      opacity: 0.5;
+      width: 25%;
+      font-size: 40px;
+      
+    }
+  }
+  
+  .titlename {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: 40px;
+    font-style: normal;
+    animation: breathingEffect 2s infinite ;
+  
+  }
 .searchbar{
     display: flex;
     // gap: 15%;
@@ -7,7 +37,7 @@
     width: 100%;
     align-items: center;
     color: aliceblue;
-    justify-content: space-around;
+    justify-content: space-evenly;
     background: linear-gradient(to right, #510751, #a248f0);
 }
 
@@ -27,7 +57,4 @@
     align-items: center;
     background: linear-gradient(to right, #800080, #9478b6);
     color: white;
-}
-.lower-container{
-    background: linear-gradient(to right, #800080, #9478b6);
 }
